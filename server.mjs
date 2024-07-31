@@ -34,6 +34,11 @@ app.post('/webparser', async (req, res) => {
             },
             body: JSON.stringify({ url: url }),
         });
+
+        if (!response.ok) {
+            throw new Error(`Proxy server response not ok: ${response.statusText}`);
+        }
+
         const data = await response.json();
         res.json(data);
     } catch (error) {
