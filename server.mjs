@@ -27,18 +27,13 @@ app.post('/webparser', async (req, res) => {
     const { url } = req.body;
 
     try {
-        const response = await fetch('https://proxyserver-bice.vercel.app/', {
+        const response = await fetch('https://uptime-mercury-api.azurewebsites.net/webparser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ url: url }),
         });
-
-        if (!response.ok) {
-            throw new Error(`Proxy server response not ok: ${response.statusText}`);
-        }
-
         const data = await response.json();
         res.json(data);
     } catch (error) {
