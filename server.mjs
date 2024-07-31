@@ -27,7 +27,7 @@ app.post('/webparser', async (req, res) => {
     const { url } = req.body;
 
     try {
-        const response = await fetch('https://uptime-mercury-api.azurewebsites.net/webparser', {
+        const response = await fetch('https://proxyserver-bice.vercel.app/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
