@@ -25,7 +25,7 @@
 </head>
 <body>
     <h1>Fetch Article Content</h1>
-    <p id="status" class="loading">Loading...</p>
+    <p id="status">Loading...</p>
     <div id="content"></div>
 
     <script>
@@ -46,12 +46,18 @@
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const data = await response.text(); // Expect raw text for RSS feeds
+                const data = await response.json();
                 console.log('Fetched data:', data); // Debugging statement
 
-                contentElement.innerHTML = `<pre>${data}</pre>`; // Display raw RSS data
-                statusElement.textContent = 'Content loaded successfully.';
-                statusElement.className = '';
+                if (data && data.content) {
+                    contentElement.innerHTML = data.content;
+                    statusElement.textContent = 'Content loaded successfully.';
+                    statusElement.className = '';
+                } else {
+                    contentElement.innerHTML = '<p>No content available.</p>';
+                    statusElement.textContent = 'No content available.';
+                    statusElement.className = 'error';
+                }
             } catch (error) {
                 console.error('Error fetching article content:', error);
                 contentElement.innerHTML = '<p>Unable to load content.</p>';
@@ -61,7 +67,7 @@
         }
 
         // Example usage: Fetch content for a specific URL
-        fetchArticleContent('https://example.com/rss-feed'); // Replace with actual RSS feed URL
+        fetchArticleContent('https://www.theverge.com/tech');
     </script>
 </body>
 </html>

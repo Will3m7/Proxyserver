@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 
 // Middleware to parse JSON
 app.use(express.json());
-app.use(cors()); // Enable CORS for all origins
+app.use(cors()); // Correctly placed after initializing the app
 
 // Serve the static HTML file
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,20 +29,20 @@ app.post('/webparser', async (req, res) => {
     const { url } = req.body;
 
     try {
-        const response = await fetch(url, {
-            method: 'GET',
+        const response = await fetch('https://uptime-mercury-api.azurewebsites.net/webparser', {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/xml', // Expected content type
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ url: url }),
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.text(); // Expect raw text for RSS feeds
-        res.setHeader('Content-Type', 'application/xml'); // Ensure correct content type
-        res.send(data); // Send raw RSS content
+        const data = await response.json();
+        res.json(data);
     } catch (error) {
         console.error('Error fetching article content:', error);
         res.status(500).json({ error: 'Unable to load content.' });
