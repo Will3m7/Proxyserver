@@ -2,9 +2,7 @@ import express from 'express';
 import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
-const cors = require('cors');
-
-app.use(cors());
+import cors from 'cors';
 
 // Create an Express application
 const app = express();
@@ -16,6 +14,7 @@ const __dirname = path.dirname(__filename);
 
 // Middleware to parse JSON
 app.use(express.json());
+app.use(cors()); // Correctly placed after initializing the app
 
 // Serve the static HTML file
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,7 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
-
 
 // Proxy route to fetch content
 app.post('/webparser', async (req, res) => {
@@ -38,6 +36,11 @@ app.post('/webparser', async (req, res) => {
             },
             body: JSON.stringify({ url: url }),
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         res.json(data);
     } catch (error) {
