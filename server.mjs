@@ -25,8 +25,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-
-// Proxy route to be fetch content
+// Proxy route to fetch content
 app.post('/webparser', async (req, res) => {
     const { url } = req.body;
 
