@@ -5,10 +5,11 @@
   "main": "server.mjs",
   "type": "module",
   "scripts": {
-      "start": "node server.mjs"
+    "start": "node server.mjs"
   },
   "dependencies": {
-      "express": "^4.17.1",
-      "node-fetch": "^3.0.0"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "node-fetch": "^3.0.0"
   }
 }

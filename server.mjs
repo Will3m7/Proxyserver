@@ -2,6 +2,9 @@ import express from 'express';
 import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
+const cors = require('cors');
+
+app.use(cors());
 
 // Create an Express application
 const app = express();
