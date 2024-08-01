@@ -25,11 +25,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const corsOptions = {
-    origin: '*',
-    methods: ['POST', 'GET', 'OPTIONS'],
-    allowedHeaders: ['Content-Type']
-  };
 
 // Proxy route to fetch content
 app.post('/webparser', async (req, res) => {
