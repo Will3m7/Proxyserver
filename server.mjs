@@ -29,10 +29,10 @@ app.post('/webparser', async (req, res) => {
     const { url } = req.body;
 
     try {
-        const response = await fetch(url, { // Use the URL from the request body
-            method: 'GET', // Adjust method to 'GET' for fetching RSS
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/xml', // Expected content type
             },
         });
 
@@ -40,7 +40,8 @@ app.post('/webparser', async (req, res) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.text(); // Use text() for RSS feeds
+        const data = await response.text(); // Expect raw text for RSS feeds
+        res.setHeader('Content-Type', 'application/xml'); // Ensure correct content type
         res.send(data); // Send raw RSS content
     } catch (error) {
         console.error('Error fetching article content:', error);
